@@ -1,8 +1,6 @@
 # Install PYENV
 
-Scripts to Install PYENV on Debian and Redhat-based Machines
-
-## How to Run the Script
+Ansible Playbook to Install PYENV on Debian and Redhat-based Machines
 
 1. Git clone the repository
 ```bash
