@@ -20,3 +20,5 @@ ansible-playbook setup_pyenv.yaml -e ansible_connection=local
 ```bash
 PYENV_ROOT=/PATH/TO/PYENV/ROOT ansible-playbook setup_pyenv.yaml
 ```
+
+> PLAYBOOK has been tested on Ubuntu22LTS Ubuntu24LTS Debian12 Rocky8 Rocky9 RHEL8 RHEL9
