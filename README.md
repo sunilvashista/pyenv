@@ -6,11 +6,11 @@ Scripts to Install PYENV on Debian and Redhat-based Machines
 
 1. Git clone the repository
 ```bash
-   git clone https://github.com/sunilvashista/pyenv.git
+git clone https://github.com/sunilvashista/pyenv.git
 ```
    or
 ```bash
-   git clone git@github.com:sunilvashista/pyenv.git
+git clone git@github.com:sunilvashista/pyenv.git
 ```
 
 2. Run playbook
