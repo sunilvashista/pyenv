@@ -17,7 +17,6 @@ installDependentPackages() {
 }
 
 set -e
-[ -n "$PYENV_DEBUG" ] && set -x
 
 if [ -z "$PYENV_ROOT" ]; then
   if [ -z "$HOME" ]; then
