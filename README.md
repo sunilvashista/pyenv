@@ -1,6 +1,4 @@
-# Create the README content
-readme_content = """
-# pyenv
+# Install PYENV
 
 Scripts to Install PYENV on Debian and Redhat-based Machines
 
