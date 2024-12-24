@@ -4,20 +4,21 @@ Scripts to Install PYENV on Debian and Redhat-based Machines
 
 ## How to Run the Script
 
-### To Install for the Current User's Home Directory
-
-1. Make the script executable:
-    
+1. Git clone the repository
 ```bash
-chmod +x setup_pyenv.sh
+   git clone https://github.com/sunilvashista/pyenv.git
 ```
-
-2. Run the script:
+   or
 ```bash
-./setup_pyenv.sh
+   git clone git@github.com:sunilvashista/pyenv.git
 ```
 
-## To Install to a Custom Path
+2. Run playbook
+### To install to current user home directory
+```bash
+ansible-playbook setup_pyenv.yaml -e ansible_connection=local
 ```
-PYENV_ROOT=/opt/pyenv ./setup_pyenv.sh
+### To Install to a Custom Path
+```bash
+PYENV_ROOT=/PATH/TO/PYENV/ROOT ansible-playbook setup_pyenv.yaml
 ```
