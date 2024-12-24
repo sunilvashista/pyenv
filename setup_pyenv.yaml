@@ -1,0 +1,95 @@
+---
+- name: Install pyenv on Debian and Redhat-based systems
+  hosts: all
+  tasks:
+    - name: Install dependencies on Debian-based systems
+      when: ansible_os_family == "Debian"
+      apt:
+        name:
+          - make
+          - build-essential
+          - libssl-dev
+          - zlib1g-dev
+          - libbz2-dev
+          - libreadline-dev
+          - libsqlite3-dev
+          - wget
+          - curl
+          - llvm
+          - libncurses5-dev
+          - libncursesw5-dev
+          - xz-utils
+          - tk-dev
+          - libffi-dev
+          - liblzma-dev
+          - git
+        state: present
+      become: yes
+
+
+    - name: Install dependencies on Redhat-based systems
+      when: ansible_os_family == "RedHat"
+      yum:
+        name:
+          - gcc
+          - zlib-devel
+          - bzip2
+          - bzip2-devel
+          - readline-devel
+          - sqlite
+          - sqlite-devel
+          - openssl-devel
+          - xz
+          - xz-devel
+          - libffi-devel
+          - findutils
+          - git
+        state: present
+      become: yes
+
+    - name: Set PYENV_ROOT if not already set
+      set_fact:
+        pyenv_root: "{{ lookup('env', 'PYENV_ROOT') | default(ansible_env.HOME + '/.pyenv', true) }}"
+
+    - name: Check if pyenv directory exists
+      stat:
+        path: "{{ pyenv_root }}"
+      register: pyenv_dir
+
+    - name: Fail if pyenv directory exists
+      fail:
+        msg: "Cannot proceed with installation. Kindly remove the '{{ pyenv_root }}' directory first."
+      when: pyenv_dir.stat.exists
+
+    - name: Clone pyenv repository
+      git:
+        repo: "https://github.com/pyenv/pyenv.git"
+        dest: "{{ pyenv_root }}"
+        version: "{{ pyenv_git_tag | default('master') }}"
+
+    - name: Clone pyenv-doctor repository
+      git:
+        repo: "https://github.com/pyenv/pyenv-doctor.git"
+        dest: "{{ pyenv_root }}/plugins/pyenv-doctor"
+        version: "master"
+
+    - name: Clone pyenv-update repository
+      git:
+        repo: "https://github.com/pyenv/pyenv-update.git"
+        dest: "{{ pyenv_root }}/plugins/pyenv-update"
+        version: "master"
+
+    - name: Clone pyenv-virtualenv repository
+      git:
+        repo: "https://github.com/pyenv/pyenv-virtualenv.git"
+        dest: "{{ pyenv_root }}/plugins/pyenv-virtualenv"
+        version: "master"
+
+    - name: Add pyenv to bashrc
+      blockinfile:
+        path: "{{ansible_env.HOME}}/.bashrc"
+        block: |
+          export PATH="{{ pyenv_root }}/bin:$PATH"
+          eval "$(pyenv init --path)"
+          eval "$(pyenv init -)"
+          eval "$(pyenv virtualenv-init -)"
